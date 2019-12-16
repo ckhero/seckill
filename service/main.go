@@ -15,6 +15,5 @@ func init()  {
 func main() {
 	fmt.Println(config.GetEnv())
 	fmt.Println(config.AppConfig.Redis.Host)
-	component
 
 }
