@@ -10,6 +10,7 @@ import (
 
 type Config struct {
 	Redis redis
+	DB DB
 }
 
 type redis struct {
@@ -18,25 +19,34 @@ type redis struct {
 	Password string `yaml:"password"`
 }
 
+type DB struct {
+	Drive string `yaml:"drive"`
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	Database string `yaml:"database"`
+}
+
 var (
-	appName string
-	runEnv string
+	AppName string
+	RunEnv string
 	AppConfig *Config
 	once sync.Once
 )
 
-func GetApp() string {
-	return appName;
-}
-
-func GetEnv() string {
-	return runEnv;
-}
+//func GetApp() string {
+//	return appName;
+//}
+//
+//func GetEnv() string {
+//	return runEnv;
+//}
 
 func InitConfig(app, env string)  {
 	once.Do(func() {
-		appName = app
-		runEnv = env
+		AppName = app
+		RunEnv = env
 		pwd, _ := os.Getwd();
 		path := filepath.Join(pwd, "config", env) + ".yml";
 		AppConfig = loadConfig(path)

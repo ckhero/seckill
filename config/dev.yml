@@ -2,3 +2,10 @@ redis:
   host: 127.0.0.1
   port: 6379
   password :
+DB:
+  host: 127.0.0.1
+  port: 6379
+  driver : mysql
+  username: root
+  password: password
+  database: database

@@ -6,25 +6,21 @@ import (
 	"seckill/config"
 )
 
-type ReidsConn struct {
+type redisConn struct {
 	Conn redis.Conn
 }
 
-var redisConn redis.Conn;
-
+var Redis redisConn
 func InitRedis() {
 	url := config.AppConfig.Redis.Host + ":" + config.AppConfig.Redis.Port
-	RedisConn, err := redis.Dial("tcp", url);
+	conn, err := redis.Dial("tcp", url);
 	if err != nil {
 		panic(fmt.Errorf("load config fail:%s\n", err));
 	}
-	defer RedisConn.Close()
+	Redis.Conn = conn
 }
 
-func SetStr(key, value string) {
-	fmt.Println(redisConn)
-	_, err := redisConn.conn.Do("SET", key, value)
-	if (err != nil) {
-		panic(fmt.Errorf("set redis fail:%s\n", err));
-	}
+func (conn *redisConn)SetStr(key, value string) {
+	(*conn).Conn.Do("SET", key, value)
 }
+
