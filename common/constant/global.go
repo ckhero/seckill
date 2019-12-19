@@ -4,4 +4,5 @@ const (
 	GlobalService = "service"
 	GlobalCommand = "command"
 	GlobalDev = "dev"
+	GlobalProd = "prod"
 )

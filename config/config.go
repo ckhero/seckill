@@ -20,9 +20,9 @@ type redis struct {
 }
 
 type DB struct {
-	Drive string `yaml:"drive"`
+	Driver string `yaml:"driver"`
 	Host string `yaml:"host"`
-	Port string `yaml:"port"`
+	Port int `yaml:"port"`
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
 	Database string `yaml:"database"`
