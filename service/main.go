@@ -2,36 +2,34 @@ package main
 
 import (
 	"fmt"
+	micro "github.com/micro/go-micro"
 	"github.com/sirupsen/logrus"
 	"seckill/common/component"
 	"seckill/common/constant"
 	"seckill/common/model"
 	"seckill/common/util"
 	"seckill/config"
+	"seckill/service/handle"
 	"sync"
+	proto "seckill/proto"
+
 )
 
 var wg sync.WaitGroup
-
+type ProductProto struct {}
 func init()  {
 	config.InitConfig(constant.GlobalService, util.GetArg(constant.ArgEnv, constant.GlobalDev))
 	component.InitRedis()
 	model.InitDB()
 }
 func main() {
-	//productExtend, err := new(model.ProductExtend).FindOne(2)
-	//if productExtend != nil {
-	//	fmt.Println("productExtend:", util.JsonEncode(productExtend))
-	//}
+	srv := micro.NewService(micro.Name("go.micro.api.product"))
+	srv.Init()
 
-	product, err := new(model.Product).FindOne(2)
-	fmt.Println("product:", util.JsonEncode(product))
-	productExtends, _ := product.GetProductExtends()
-	fmt.Println("product:", util.JsonEncode(productExtends))
-	if err != nil {
+	proto.RegisterProductHandler(srv.Server(), new(handle.Product))
+	if err := srv.Run(); err != nil {
 		fmt.Println(err)
 	}
-	logrus.Infof("done")
 	defer func() {
 
 		if v := recover(); v != nil {

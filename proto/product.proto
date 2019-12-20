@@ -1,0 +1,14 @@
+syntax = "proto3"; //指定使用proto3语法
+
+package proto
+
+service Product {
+    rpc Detail (DetailRequest) returns (Detailesponse) {} //获取产品列表
+}
+
+message DetailRequest {
+}
+
+message Detailesponse {
+    int32 total = 2;//总数
+}
